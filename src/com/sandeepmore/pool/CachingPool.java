@@ -28,7 +28,7 @@ public class CachingPool implements ICachingPool {
 	private static int MAXWAIT; 	// Max time the borrowedObject() should block b4 throwing xception
 	
 	private static ICachingPool instance = null; // sessions class instance
-	private GenericObjectPool cachePool;
+	private GenericObjectPool cachePool; 
 	
 	/**
 	 * Initialize the  Cashing Connection pool.
