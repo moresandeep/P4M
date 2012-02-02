@@ -12,6 +12,11 @@ package com.sandeepmore.caching;
 public class CachingException extends Exception {
 
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7336342248916593590L;
+
+	/**
 	 * Default constructor
 	 */
 	public CachingException() {

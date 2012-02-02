@@ -30,11 +30,8 @@ import com.sandeepmore.pool.ICachingPool;
  */
 public class CachingBroker implements ICachingBroker{
 	
-	private static final Log logger = LogFactory.getLog(CachingBroker.class);
-	
+	private static final Log logger = LogFactory.getLog(CachingBroker.class);	
 	private ICachingPool deligatePool = null;
-	private MemcachedClient client;
-	
 
 	public CachingBroker () {
 		this.deligatePool = CachingPool.getInstance(); // get the session instance
@@ -56,6 +53,7 @@ public class CachingBroker implements ICachingBroker{
 	 * @param obj Object value to be stored in the cache.
 	 */
 	public void set(String key, int exp, Object obj){
+		MemcachedClient client = null;
 		try {
 			// borrow an object from the pool to work on
 			logger.info("SET:Borrowing object from the pool"); 
@@ -84,6 +82,7 @@ public class CachingBroker implements ICachingBroker{
 	 * @return The result from the cache (null if there is none).
 	 */
 	public Object get(String key) throws CachingException{
+		MemcachedClient client = null;
 		Object getValue = null;
 		try {
 			// borrow an object from the pool to work on
@@ -119,6 +118,7 @@ public class CachingBroker implements ICachingBroker{
 	 * @throws CachingException
 	 */
 	public void delete(String key) throws CachingException{
+		MemcachedClient client = null;
 		try {
 			// borrow an object from the pool to work on
 			logger.info("DELETE:Borrowing object from the pool"); 
