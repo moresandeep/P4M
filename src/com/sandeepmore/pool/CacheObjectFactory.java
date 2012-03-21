@@ -31,14 +31,12 @@ public class CacheObjectFactory implements PoolableObjectFactory {
 	}
 	
 	@Override
-	public void activateObject(Object arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public void activateObject(Object arg0) throws Exception {		
 		
 	}
 
 	@Override
-	public void destroyObject(Object arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public void destroyObject(Object arg0) throws Exception {		
 		
 	}
 
@@ -47,21 +45,18 @@ public class CacheObjectFactory implements PoolableObjectFactory {
 	 * <p>
 	 * @return MemcachedClient client object
 	 */
-	public Object makeObject() throws Exception {
-		// TODO Auto-generated method stub
+	public Object makeObject() throws Exception {		
 		MemcachedClient cache = new MemcachedClient(new BinaryConnectionFactory(), AddrUtil.getAddresses(server));
 		return cache;
 	}
 
 	@Override
-	public void passivateObject(Object arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public void passivateObject(Object arg0) throws Exception {		
 		
 	}
 
 	@Override
-	public boolean validateObject(Object arg0) {
-		// TODO Auto-generated method stub
+	public boolean validateObject(Object arg0) {		
 		return true;
 	}
 

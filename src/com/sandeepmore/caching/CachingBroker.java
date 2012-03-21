@@ -59,10 +59,7 @@ public class CachingBroker implements ICachingBroker{
 			logger.info("SET:Borrowing object from the pool"); 
 			client = (MemcachedClient)deligatePool.borrowObject();	
 			 //do the set operation
-			 client.set(key, exp, obj);
-			 //return the borrowed object back to pool
-			 deligatePool.returnObject(client);
-			 logger.info("SET:Returned object to the pool");
+			 client.set(key, exp, obj);			 
 		}catch (NoSuchElementException ex) {
 			// The pool is full
 			logger.error("Session pool full");
@@ -70,7 +67,11 @@ public class CachingBroker implements ICachingBroker{
 		}catch (Exception ex) {
 			logger.error("Set session cache failed for key:"+key);
 			ex.printStackTrace();
-		}	
+		}finally {
+			//return the borrowed object back to pool
+			deligatePool.returnObject(client);
+			logger.info("SET:Returned object to the pool");
+		}
 	}
 	
 	/**
@@ -88,12 +89,9 @@ public class CachingBroker implements ICachingBroker{
 			// borrow an object from the pool to work on
 			logger.info("GET:Borrowing object from the pool"); 
 			client = (MemcachedClient)deligatePool.borrowObject();	
-			 //do the get operation
-			 getValue = client.get(key);
-			 //return the borrowed object back to pool
-			 deligatePool.returnObject(client);
-			 logger.info("GET:Returned object to the pool");
-			 return getValue;
+			//do the get operation
+			getValue = client.get(key);			 
+			return getValue;
 		}catch (NoSuchElementException ex) {
 			// The pool is full, return null.
 			logger.error("Session pool full, get for key:"+key+" returning null ");
@@ -107,7 +105,11 @@ public class CachingBroker implements ICachingBroker{
 			logger.error("Get for key:"+key+" returning null ");
 			ex.printStackTrace();
 			throw new CachingException(ex);
-		}	
+		}finally {
+			//return the borrowed object back to pool
+			deligatePool.returnObject(client);
+			logger.info("GET:Returned object to the pool");
+		}
 		
 	}
 	
@@ -124,10 +126,7 @@ public class CachingBroker implements ICachingBroker{
 			logger.info("DELETE:Borrowing object from the pool"); 
 			client = (MemcachedClient)deligatePool.borrowObject();	
 			 //do the delete operation
-			 client.delete(key);
-			 //return the borrowed object back to pool
-			 deligatePool.returnObject(client);
-			 logger.info("DELETE:Returned object to the pool");
+			 client.delete(key);			 
 		}catch (NoSuchElementException ex) {
 			// The pool is full
 			logger.error("Session pool full, delete for key:"+key+" unsuccessful");
@@ -137,6 +136,10 @@ public class CachingBroker implements ICachingBroker{
 			logger.error("Delete for key:"+key+" unsuccessful");
 			ex.printStackTrace();
 			throw new CachingException(ex);
+		}finally{
+			//return the borrowed object back to pool
+			deligatePool.returnObject(client);
+			logger.info("DELETE:Returned object to the pool");
 		}
 		
 	}
