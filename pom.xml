@@ -9,18 +9,6 @@
     <version>1.0.0-production</version>
 
     <dependencies>
-        <!-- core -->
-        <dependency>
-            <groupId>com.yammer.dropwizard</groupId>
-            <artifactId>dropwizard-core</artifactId>
-            <version>0.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.yammer.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
         <!-- cache and pool (after all that's what we're here for right?) -->
         <dependency>
             <groupId>com.google.code.maven-play-plugin.spy</groupId>

@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
  * @author Sandeep More
  *
  */
-public class CacheObjectFactory implements PoolableObjectFactory {
+public class CacheObjectFactory implements PoolableObjectFactory<Object> {
 	
 	/**
 	 * Server configuration string
@@ -32,16 +32,14 @@ public class CacheObjectFactory implements PoolableObjectFactory {
      * @param server Address of the memcached server including port number (e.g. memcached.something.cfg.use1.cache.amazonaws.com:11211)
      */
     public CacheObjectFactory(String server) {
-        this.server = server;
+        CacheObjectFactory.server = server;
     }
 
 
-    @Override
 	public void activateObject(Object arg0) throws Exception {		
 		
 	}
 
-	@Override
 	public void destroyObject(Object arg0) throws Exception {		
 		
 	}
@@ -56,12 +54,10 @@ public class CacheObjectFactory implements PoolableObjectFactory {
 		return cache;
 	}
 
-	@Override
 	public void passivateObject(Object arg0) throws Exception {		
 		
 	}
 
-	@Override
 	public boolean validateObject(Object arg0) {		
 		return true;
 	}

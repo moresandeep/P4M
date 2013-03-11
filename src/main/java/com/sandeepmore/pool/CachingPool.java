@@ -27,7 +27,7 @@ public class CachingPool implements ICachingPool {
 	private static int MAXWAIT; 	// Max time the borrowedObject() should block b4 throwing an exception
 	
 	private static ICachingPool instance = null; // sessions class instance
-	private GenericObjectPool cachePool;
+	private GenericObjectPool<Object> cachePool;
 
     /**
      * Initialize the  Cashing Connection pool.
@@ -50,7 +50,7 @@ public class CachingPool implements ICachingPool {
         logger.info("instantiating the Caching pool");
         // create a genericObjectPool using CacheObjectFactory
         // CacheObjectFactory has all the setting for the getting the cache
-        cachePool = new GenericObjectPool(cof);
+        cachePool = new GenericObjectPool<Object>(cof);
 
         MAXACTIVE =  maxactive;
         MAXWAIT   =  maxwait;
