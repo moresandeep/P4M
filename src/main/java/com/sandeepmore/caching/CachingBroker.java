@@ -54,7 +54,7 @@ public class CachingBroker implements ICachingBroker{
 		MemcachedClient client = null;
 		try {
 			// borrow an object from the pool to work on
-			logger.info("SET:Borrowing object from the pool"); 
+			logger.debug("SET:Borrowing object from the pool");
 			client = (MemcachedClient)deligatePool.borrowObject();	
 			 //do the set operation
 			 client.set(key, exp, obj);			 
@@ -68,7 +68,7 @@ public class CachingBroker implements ICachingBroker{
 		}finally {
 			//return the borrowed object back to pool
 			deligatePool.returnObject(client);
-			logger.info("SET:Returned object to the pool");
+			logger.debug("SET:Returned object to the pool");
 		}
 	}
 	
@@ -80,33 +80,30 @@ public class CachingBroker implements ICachingBroker{
 	 * @throws CachingException 
 	 * @return The result from the cache (null if there is none).
 	 */
-	public Object get(String key) throws CachingException{
+	public Object get(String key) throws CachingException {
 		MemcachedClient client = null;
 		Object getValue = null;
 		try {
 			// borrow an object from the pool to work on
-			logger.info("GET:Borrowing object from the pool"); 
+			logger.debug("GET:Borrowing object from the pool");
 			client = (MemcachedClient)deligatePool.borrowObject();	
 			//do the get operation
 			getValue = client.get(key);			 
 			return getValue;
 		}catch (NoSuchElementException ex) {
 			// The pool is full, return null.
-			logger.error("Session pool full, get for key:"+key+" returning null ");
-			ex.printStackTrace();
-			return null; 
+			logger.warn("Session pool full, get for key:"+key+" returning null ");
+			return null;
 		}catch (OperationTimeoutException ex) {
-			logger.error(" ********* Timed out while waiting for the connection ********** ");
-			ex.printStackTrace();
+			logger.error("Timed out while waiting for the memcache connection to: " + deligatePool.getServer());
 			throw new CachingException(ex);
 		}catch (Exception ex) {
-			logger.error("Get for key:"+key+" returning null ");
-			ex.printStackTrace();
+			logger.error("Get for key:"+key+" caused an unplanned exception ", ex);
 			throw new CachingException(ex);
 		}finally {
 			//return the borrowed object back to pool
 			deligatePool.returnObject(client);
-			logger.info("GET:Returned object to the pool");
+			logger.debug("GET:Returned object to the pool");
 		}
 		
 	}
@@ -121,7 +118,7 @@ public class CachingBroker implements ICachingBroker{
 		MemcachedClient client = null;
 		try {
 			// borrow an object from the pool to work on
-			logger.info("DELETE:Borrowing object from the pool"); 
+			logger.debug("DELETE:Borrowing object from the pool");
 			client = (MemcachedClient)deligatePool.borrowObject();	
 			 //do the delete operation
 			 client.delete(key);			 
@@ -137,8 +134,15 @@ public class CachingBroker implements ICachingBroker{
 		}finally{
 			//return the borrowed object back to pool
 			deligatePool.returnObject(client);
-			logger.info("DELETE:Returned object to the pool");
+			logger.debug("DELETE:Returned object to the pool");
 		}
-		
 	}
+
+    /**
+     * Return the server string associated with this Caching Broker.
+     * @return The string used to initialize the memcache server.
+     */
+    public String getServer() {
+        return deligatePool.getServer();
+    }
 }

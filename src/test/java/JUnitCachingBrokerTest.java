@@ -69,8 +69,9 @@ public class JUnitCachingBrokerTest extends TestCase {
     @Test
 	public void testSingleGetOperation() {		
 		try {
+            cb.set(junitKey + "foo", TTL, junitVal + "foo");
 			assertEquals("Get value from the cache", 
-					     junitVal+0, cb.get(junitKey+0));
+					     junitVal + "foo", cb.get(junitKey + "foo"));
 		}catch (CachingException er) {
 			fail("Failed to GET a single value, Caching exception");			
 		} catch(AssertionError e) {

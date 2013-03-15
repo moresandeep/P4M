@@ -41,4 +41,10 @@ public interface ICachingBroker {
 	 * @throws CachingException
 	 */
 	public void delete (String key) throws CachingException;
+
+    /**
+     * Return the server string associated with this Caching Broker.
+     * @return The string used to initialize the memcache server.
+     */
+    public String getServer();
 }
