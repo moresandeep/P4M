@@ -2,11 +2,19 @@ package com.sandeepmore.pool;
 
 
 public interface ICachingPool {
-	
-	// Borrows an object from the pool.
+
+    /**
+     * Obtains an instance from the pool.
+     * <p>
+     * @throws Exception
+     */
 	public Object borrowObject() throws Exception;
-	
-	// Returns an object instance to the pool.
+
+    /**
+     * Return an instance to the pool.
+     * <p>
+     * @param obj The object to return to the pool.
+     */
 	public void returnObject(Object obj);
 
     /**

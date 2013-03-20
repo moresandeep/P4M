@@ -144,7 +144,8 @@ public class CachingPool implements ICachingPool {
 
 	/** 
 	 * Return an instance to the pool.
-	 * <p>
+     * <p>
+	 * @param obj The object to return to the pool.
 	 */
 	public void returnObject(Object obj) {
 		try {
